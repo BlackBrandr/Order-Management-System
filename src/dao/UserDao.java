@@ -17,7 +17,7 @@ public class UserDao {
 
     public User findByLogin(String mail, String password){
         User user = null;
-        String query = "SELECT * FROM user WHERE mail = ? AND password = ?";
+        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
         try{
             PreparedStatement pr = this.connection.prepareStatement(query);
             pr.setString(1, mail);
@@ -50,7 +50,7 @@ public class UserDao {
         user.setId(rs.getInt("id"));
         user.setName(rs.getString("name"));
         user.setPassword(rs.getString("password"));
-        user.setMail(rs.getString("mail"));
+        user.setMail(rs.getString("email"));
         return user;
     }
 }

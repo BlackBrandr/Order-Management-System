@@ -9,7 +9,7 @@ public class Database {
 
     private static Database instance = null;
     private Connection connection = null;
-    private final String DB_URL = "jdbc:mysql://@localhost:3306";
+    private final String DB_URL = "jdbc:mysql://localhost:3306/order_management";
     private final String DB_USERNAME = "root";
     private final String DB_PASSWORD = "deneme123";
 
