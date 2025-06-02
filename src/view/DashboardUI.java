@@ -1,11 +1,19 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
+import business.CustomerController;
 import entity.User;
 import core.Helper;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import entity.Customer;
 
 public class DashboardUI extends JFrame {
     private JPanel container;
@@ -24,6 +32,9 @@ public class DashboardUI extends JFrame {
     private JLabel lbl_f_customer_name;
     private JLabel lbl_f_customer_type;
     private User user;
+    private CustomerController customerController = new CustomerController();
+    private DefaultTableModel tmdl_customer = new DefaultTableModel();
+    private JPopupMenu popup_customer = new JPopupMenu();
 
     public DashboardUI(User user){
         this.user = user;
@@ -48,6 +59,62 @@ public class DashboardUI extends JFrame {
             dispose();
             LoginUI loginUI = new LoginUI();
         });
+
+        loadCustomerTable(null);
+        loadCustomerPopupMenu();
+
+    }
+
+    private void loadCustomerPopupMenu(){
+        this.tbl_customer.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int selectedRow = tbl_customer.rowAtPoint(e.getPoint());
+                tbl_customer.setRowSelectionInterval(selectedRow, selectedRow);
+            }
+        });
+
+
+        this.popup_customer.add("Update").addActionListener(e -> {
+            int selectId = Integer.parseInt(this.tbl_customer.getValueAt(this.tbl_customer.getSelectedRow(), 0).toString());
+            System.out.println(selectId);
+        });
+
+        this.popup_customer.add("Delete").addActionListener(e -> {
+            System.out.println("Delete clicked");
+        });
+
+        this.tbl_customer.setComponentPopupMenu(this.popup_customer);
+    }
+
+    private void loadCustomerTable(ArrayList<Customer> customers) {
+        Object[] columnCustomer = {"ID", "Customer Name", "Customer Type", "Phone", "Mail", "Address"};
+
+        if (customers == null)  {
+            customers = this.customerController.findAll();
+        }
+
+        // Table clear
+        DefaultTableModel clearModel = (DefaultTableModel) this.tbl_customer.getModel();
+        clearModel.setRowCount(0);
+
+        this.tmdl_customer.setColumnIdentifiers(columnCustomer);
+        for (Customer customer : customers) {
+            Object[] rowObject = {
+                    customer.getId(),
+                    customer.getName(),
+                    customer.getType(),
+                    customer.getPhone(),
+                    customer.getMail(),
+                    customer.getAddress()
+            };
+            this.tmdl_customer.addRow(rowObject);
+        }
+
+        this.tbl_customer.setModel(this.tmdl_customer);
+        this.tbl_customer.getTableHeader().setReorderingAllowed(false);
+        this.tbl_customer.getColumnModel().getColumn(0).setMaxWidth(50);
+        this.tbl_customer.setDefaultEditor(Object.class, null);
     }
 
 }
