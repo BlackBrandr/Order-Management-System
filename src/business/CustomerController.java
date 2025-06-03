@@ -10,4 +10,12 @@ public class CustomerController {
     public ArrayList<Customer> findAll(){
         return this.customerDao.findAll();
     }
+
+    public boolean save(Customer customer){
+        return this.customerDao.save(customer);
+    }
+
+    public Customer getById(int id){
+        return this.customerDao.getById(id);
+    }
 }

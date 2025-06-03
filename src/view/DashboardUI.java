@@ -8,10 +8,7 @@ import entity.User;
 import core.Helper;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import entity.Customer;
 
@@ -62,7 +59,19 @@ public class DashboardUI extends JFrame {
 
         loadCustomerTable(null);
         loadCustomerPopupMenu();
+        loadCustomerButtonEvent();
+    }
 
+    private void loadCustomerButtonEvent(){
+        this.btn_customer_new.addActionListener(e -> {
+            CustomerUI customerUI = new CustomerUI(new Customer());
+            customerUI.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadCustomerTable(null);
+                }
+            });
+        });
     }
 
     private void loadCustomerPopupMenu(){
@@ -77,7 +86,7 @@ public class DashboardUI extends JFrame {
 
         this.popup_customer.add("Update").addActionListener(e -> {
             int selectId = Integer.parseInt(this.tbl_customer.getValueAt(this.tbl_customer.getSelectedRow(), 0).toString());
-            System.out.println(selectId);
+            CustomerUI customerUI = new CustomerUI(this.customerController.getById(selectId));
         });
 
         this.popup_customer.add("Delete").addActionListener(e -> {
