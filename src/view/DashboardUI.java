@@ -87,10 +87,24 @@ public class DashboardUI extends JFrame {
         this.popup_customer.add("Update").addActionListener(e -> {
             int selectId = Integer.parseInt(this.tbl_customer.getValueAt(this.tbl_customer.getSelectedRow(), 0).toString());
             CustomerUI customerUI = new CustomerUI(this.customerController.getById(selectId));
+            customerUI.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadCustomerTable(null);
+                }
+            });
         });
 
         this.popup_customer.add("Delete").addActionListener(e -> {
-            System.out.println("Delete clicked");
+            int selectId = Integer.parseInt(this.tbl_customer.getValueAt(this.tbl_customer.getSelectedRow(), 0).toString());
+            if (Helper.confirm("sure")){
+                if (this.customerController.delete(selectId)) {
+                    Helper.showMsg("done");
+                    loadCustomerTable(null);
+                } else {
+                    Helper.showMsg("error");
+                }
+            }
         });
 
         this.tbl_customer.setComponentPopupMenu(this.popup_customer);

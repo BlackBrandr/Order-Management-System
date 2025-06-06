@@ -67,6 +67,8 @@ public class CustomerUI extends JFrame {
 
                if (this.customer.getId() == 0) {
                    result = this.customerController.save(this.customer);
+               } else {
+                   result = this.customerController.update(this.customer);
                }
 
                if (result) {
