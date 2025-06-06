@@ -107,6 +107,19 @@ public class CustomerDao {
         return true;
     }
 
+    public ArrayList<Customer> query(String query){
+        ArrayList<Customer> customers = new ArrayList<>();
+        try {
+            ResultSet rs = this.connection.createStatement().executeQuery(query);
+            while (rs.next()){
+                customers.add(this.match(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return customers;
+    }
+
     public Customer match (ResultSet rs) throws SQLException{
         Customer customer = new Customer();
         customer.setId(rs.getInt("id"));
