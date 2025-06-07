@@ -220,6 +220,108 @@
               </grid>
             </children>
           </grid>
+          <grid id="ec6c4" binding="pnl_basket" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Create Order"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="d5585" binding="pnl_basket_top" layout-manager="GridLayoutManager" row-count="2" column-count="5" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="5" left="5" bottom="5" right="5"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="2b24d" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Select Customer"/>
+                    </properties>
+                  </component>
+                  <hspacer id="a9640">
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <component id="52405" class="javax.swing.JComboBox" binding="cmb_basket_customer">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="981da" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Total Amount"/>
+                    </properties>
+                  </component>
+                  <component id="7c4d2" class="javax.swing.JLabel" binding="lbl_basket_price">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="10"/>
+                      <horizontalTextPosition value="11"/>
+                      <text value="0 $"/>
+                    </properties>
+                  </component>
+                  <component id="33e41" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Product Count"/>
+                    </properties>
+                  </component>
+                  <component id="75b1" class="javax.swing.JLabel" binding="lbl_basket_count">
+                    <constraints>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="0 "/>
+                    </properties>
+                  </component>
+                  <component id="b09d2" class="javax.swing.JButton" binding="btn_basket_reset">
+                    <constraints>
+                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Reset"/>
+                    </properties>
+                  </component>
+                  <component id="91b2" class="javax.swing.JButton" binding="btn_basket_new">
+                    <constraints>
+                      <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Create Order"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <scrollpane id="c2712" binding="scrl_basket">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="8304d" class="javax.swing.JTable" binding="tbl_basket">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
         </children>
       </tabbedpane>
       <component id="7cf5f" class="javax.swing.JButton" binding="btn_logout">
