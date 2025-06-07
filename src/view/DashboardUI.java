@@ -4,18 +4,16 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import business.BasketController;
+import business.CartController;
 import business.CustomerController;
 import business.ProductController;
 import core.Item;
-import entity.Basket;
-import entity.Product;
-import entity.User;
+import entity.*;
 import core.Helper;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import entity.Customer;
 
 public class DashboardUI extends JFrame {
     private JPanel container;
@@ -55,13 +53,19 @@ public class DashboardUI extends JFrame {
     private JLabel lbl_basket_price;
     private JLabel lbl_basket_count;
     private JTable tbl_basket;
+    private JPanel pnl_order;
+    private JScrollPane scrl_cart;
+    private JTable tbl_cart;
     private User user;
     private CustomerController customerController = new CustomerController();
     private ProductController productController;
     private BasketController basketController;
+    private CartController cartController = new CartController();
     private DefaultTableModel tmdl_customer = new DefaultTableModel();
     private DefaultTableModel tmdl_product = new DefaultTableModel();
     private DefaultTableModel tmdl_basket = new DefaultTableModel();
+    private DefaultTableModel tmdl_cart = new DefaultTableModel();
+
     private JPopupMenu popup_product = new JPopupMenu();
     private JPopupMenu popup_customer = new JPopupMenu();
 
@@ -70,6 +74,7 @@ public class DashboardUI extends JFrame {
         this.customerController = new CustomerController();
         this.productController = new ProductController();
         this.basketController = new BasketController();
+        this.cartController = new CartController();
 
         if (user == null) {
             Helper.showMsg("Error");
@@ -112,6 +117,37 @@ public class DashboardUI extends JFrame {
         loadBasketTable();
         loadBasketButtonEvent();
         loadBasketCustomerCombo();
+
+        //Cart tab
+        loadCartTable();
+    }
+
+    private void loadCartTable(){
+        Object[] columnCart = {"ID", "Customer Name", "Product Name", "Price", "Order Date", "Note"};
+        ArrayList<Cart> carts = this.cartController.findAll();
+
+        // Table clear
+        DefaultTableModel clearModel = (DefaultTableModel) this.tbl_cart.getModel();
+        clearModel.setRowCount(0);
+
+        this.tmdl_cart.setColumnIdentifiers(columnCart);
+        int totalPrice = 0;
+        for (Cart cart : carts) {
+            Object[] rowObject = {
+                    cart.getId(),
+                    cart.getCustomer().getName(),
+                    cart.getProduct().getName(),
+                    cart.getPrice(),
+                    cart.getDate(),
+            };
+            this.tmdl_cart.addRow(rowObject);
+
+        }
+
+        this.tbl_cart.setModel(this.tmdl_cart);
+        this.tbl_cart.getTableHeader().setReorderingAllowed(false);
+        this.tbl_cart.getColumnModel().getColumn(0).setMaxWidth(50);
+        this.tbl_cart.setDefaultEditor(Object.class, null);
     }
 
     private void loadBasketCustomerCombo(){
@@ -132,6 +168,30 @@ public class DashboardUI extends JFrame {
                 loadBasketTable();
             }else {
                 Helper.showMsg("error");
+            }
+        });
+
+        this.btn_basket_new.addActionListener(e -> {
+            Item selectedCustomer = (Item) this.cmb_basket_customer.getSelectedItem();
+            if (selectedCustomer == null) {
+                Helper.showMsg("Please select a customer");
+            } else {
+                Customer customer = this.customerController.getById(selectedCustomer.getKey());
+                ArrayList<Basket> baskets = this.basketController.findAll();
+                if (customer.getId() == 0){
+                    Helper.showMsg("Customer not found");
+                } else if (baskets.size() == 0) {
+                    Helper.showMsg("Basket is empty, please add products to basket");
+                } else {
+                    CartUI cartUI = new CartUI(customer);
+                    cartUI.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            loadBasketTable();
+                            loadProductTable(null);
+                        }
+                    });
+                }
             }
         });
     }
