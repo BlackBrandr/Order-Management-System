@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 
 import business.CustomerController;
 import business.ProductController;
+import core.Item;
 import entity.Product;
 import entity.User;
 import core.Helper;
@@ -35,7 +36,7 @@ public class DashboardUI extends JFrame {
     private JPanel pnl_product_filter;
     private JTextField fld_f_product_name;
     private JTextField fld_f_product_code;
-    private JComboBox cmb_product_stock;
+    private JComboBox<Item> cmb_f_product_stock;
     private JButton btn_product_filter;
     private JButton btn_product_filter_reset;
     private JButton btn_product_new;
@@ -88,6 +89,9 @@ public class DashboardUI extends JFrame {
         loadProductTable(null);
         loadProductPopupMenu();
         loadProductButtonEvent();
+        this.cmb_f_product_stock.addItem(new Item(1, "In Stock"));
+        this.cmb_f_product_stock.addItem(new Item(2, "Out of Stock"));
+        this.cmb_f_product_stock.setSelectedItem(null);
     }
 
     private void loadProductButtonEvent(){
@@ -99,6 +103,22 @@ public class DashboardUI extends JFrame {
                     loadProductTable(null);
                 }
             });
+        });
+
+        this.btn_product_filter.addActionListener(e->{
+            ArrayList<Product> filteredProducts = this.productController.filter(
+                    this.fld_f_product_name.getText(),
+                    this.fld_f_product_code.getText(),
+                    (Item) this.cmb_f_product_stock.getSelectedItem()
+            );
+            loadProductTable(filteredProducts);
+        });
+
+        this.btn_product_filter_reset.addActionListener(e -> {
+            this.fld_f_product_name.setText("");
+            this.fld_f_product_code.setText("");
+            this.cmb_f_product_stock.setSelectedItem(null);
+            loadProductTable(null);
         });
     }
 
